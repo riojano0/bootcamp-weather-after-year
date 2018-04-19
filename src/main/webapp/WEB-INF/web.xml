@@ -5,4 +5,30 @@
 
   <display-name>Weather App - After Year</display-name>
 
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
+      WEB-INF/bootcamp-weather-after-year-servlet.xml
+    </param-value>
+  </context-param>
+
+  <servlet>
+    <description>Spring Dispatcher Servlet</description>
+    <display-name>springServlet</display-name>
+    <servlet-name>bootcamp-weather-after-year</servlet-name>
+    <!-- Spring Servlet allow to use @RequestMapping and @GET from jax-rs -->
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+
+  <servlet-mapping>
+    <servlet-name>bootcamp-weather-after-year</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping>
+
+
 </web-app>
