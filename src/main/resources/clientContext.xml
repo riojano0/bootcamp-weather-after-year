@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+       xmlns:jaxrs-client="http://cxf.apache.org/jaxrs-client"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
+       http://cxf.apache.org/jaxrs-client http://cxf.apache.org/schemas/jaxrs-client.xsd">
+
+    <jaxrs-client:client id="yahooQueryLanguageClient"
+                         serviceClass="com.montivero.poc.client.YahooQueryLanguageClient"
+                         address="https://query.yahooapis.com/v1/public/yql"
+                         inheritHeaders="true">
+        <jaxrs-client:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs-client:providers>
+    </jaxrs-client:client>
+
+    <jaxrs-client:client id="countryNameClient"
+                         serviceClass="com.montivero.poc.client.CountryNameClient"
+                         address="http://services.groupkt.com/country"
+                         inheritHeaders="true">
+        <jaxrs-client:providers>
+            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+        </jaxrs-client:providers>
+    </jaxrs-client:client>
+
+
+</beans>
