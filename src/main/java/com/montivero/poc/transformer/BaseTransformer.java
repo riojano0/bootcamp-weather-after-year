@@ -8,11 +8,11 @@ import java.util.List;
 public abstract class BaseTransformer<FROM, TO> {
 
     public List<TO> transformList(List<FROM> list) {
-        List<TO> countries = new ArrayList<>();
+        List<TO> toList = new ArrayList<>();
         for (FROM t : CollectionUtils.emptyIfNull(list)) {
-            countries.add(transform(t));
+            toList.add(transform(t));
         }
-        return countries;
+        return toList;
     }
 
     public abstract TO transform(FROM t);

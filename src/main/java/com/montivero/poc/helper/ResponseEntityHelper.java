@@ -19,7 +19,7 @@ public class ResponseEntityHelper {
     }
 
     public static ResponseEntity prepareResponseEntityForList(List<?> list) {
-        return !list.isEmpty()
+        return list != null && !list.isEmpty()
                 ? new ResponseEntity<>(list, HttpStatus.OK)
                 : new ResponseEntity<>(new Message("Not found Match"), HttpStatus.NOT_FOUND);
     }
