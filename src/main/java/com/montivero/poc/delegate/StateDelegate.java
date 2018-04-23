@@ -1,6 +1,6 @@
 package com.montivero.poc.delegate;
 
-import com.montivero.poc.adapter.StateAdapter;
+import com.montivero.poc.transformer.StateTransformer;
 import com.montivero.poc.client.StateNameClient;
 import com.montivero.poc.client.domain.GroupKTResponse;
 import com.montivero.poc.client.domain.GroupKTRestResponse;
@@ -19,19 +19,19 @@ import java.util.List;
 public class StateDelegate {
 
     private final StateNameClient stateNameClient;
-    private final StateAdapter stateAdapter;
+    private final StateTransformer stateTransformer;
 
     @Autowired
-    public StateDelegate(StateNameClient stateNameClient, StateAdapter stateAdapter) {
+    public StateDelegate(StateNameClient stateNameClient, StateTransformer stateTransformer) {
         this.stateNameClient = stateNameClient;
-        this.stateAdapter = stateAdapter;
+        this.stateTransformer = stateTransformer;
     }
 
     public ResponseEntity getAllStatesByCountry(String country) {
         GroupKTResponse<List<GroupKTState>> groupKTResponse = stateNameClient.getAllStateByCountry(StringUtils.upperCase(country));
         GroupKTRestResponse<List<GroupKTState>> groupKTRestResponse = GroupKTHelper.getRestResponse(groupKTResponse);
         List<GroupKTState> groupKTStates = GroupKTHelper.getResult(groupKTRestResponse);
-        List<State> states = stateAdapter.adaptGroupKTCountriesToCountries(groupKTStates);
+        List<State> states = stateTransformer.transformList(groupKTStates);
         return ResponseEntityHelper.prepareResponseEntityForList(states);
     }
 
@@ -39,7 +39,7 @@ public class StateDelegate {
         GroupKTResponse<GroupKTState> groupKTResponse = stateNameClient.getStateDetailsByCountryAndAbbrName(StringUtils.upperCase(country), StringUtils.upperCase(shortStateName));
         GroupKTRestResponse<GroupKTState> groupKTRestResponse = GroupKTHelper.getRestResponse(groupKTResponse);
         GroupKTState groupKTState = GroupKTHelper.getResult(groupKTRestResponse);
-        State state = stateAdapter.adaptGroupKTStateToState(groupKTState);
+        State state = stateTransformer.transform(groupKTState);
         return ResponseEntityHelper.prepareResponseEntityForLocation(state);
     }
 

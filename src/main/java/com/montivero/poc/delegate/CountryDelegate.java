@@ -1,6 +1,6 @@
 package com.montivero.poc.delegate;
 
-import com.montivero.poc.adapter.CountryAdapter;
+import com.montivero.poc.transformer.CountryTransformer;
 import com.montivero.poc.client.CountryNameClient;
 import com.montivero.poc.client.domain.GroupKTCountry;
 import com.montivero.poc.client.domain.GroupKTResponse;
@@ -20,19 +20,19 @@ import java.util.List;
 public class CountryDelegate {
 
     private final CountryNameClient countryNameClient;
-    private final CountryAdapter countryAdapter;
+    private final CountryTransformer countryTransformer;
 
     @Autowired
-    public CountryDelegate(CountryNameClient countryNameClient, CountryAdapter countryAdapter) {
+    public CountryDelegate(CountryNameClient countryNameClient, CountryTransformer countryTransformer) {
         this.countryNameClient = countryNameClient;
-        this.countryAdapter = countryAdapter;
+        this.countryTransformer = countryTransformer;
     }
 
     public ResponseEntity getAllCountries() {
         GroupKTResponse<List<GroupKTCountry>> groupKTResponse = countryNameClient.getAllCountries();
         GroupKTRestResponse<List<GroupKTCountry>> restResponse = GroupKTHelper.getRestResponse(groupKTResponse);
         List<GroupKTCountry> groupKTCountries = GroupKTHelper.getResult(restResponse);
-        List<Country> countries = countryAdapter.adaptGroupKTCountriesToCountries(groupKTCountries);
+        List<Country> countries = countryTransformer.transformList(groupKTCountries);
         return ResponseEntityHelper.prepareResponseEntityForList(countries);
     }
 
@@ -50,7 +50,7 @@ public class CountryDelegate {
         }
         GroupKTRestResponse<GroupKTCountry> restResponse = GroupKTHelper.getRestResponse(groupKTResponse);
         GroupKTCountry groupKTCountry = GroupKTHelper.getResult(restResponse);
-        Country country = countryAdapter.adaptGroupKTCountryToCountry(groupKTCountry);
+        Country country = countryTransformer.transform(groupKTCountry);
         return ResponseEntityHelper.prepareResponseEntityForLocation(country);
     }
 

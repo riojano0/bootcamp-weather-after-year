@@ -1,4 +1,4 @@
-package com.montivero.poc.adapter;
+package com.montivero.poc.transformer;
 
 import com.montivero.poc.client.domain.GroupKTCountry;
 import com.montivero.poc.resource.domain.Country;
@@ -9,18 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-public class CountryAdapter {
+public class CountryTransformer extends BaseTransformer<GroupKTCountry, Country> {
 
-
-    public List<Country> adaptGroupKTCountriesToCountries(List<GroupKTCountry> groupKTCountries) {
-        List<Country> countries = new ArrayList<>();
-        for (GroupKTCountry groupKTCountry : CollectionUtils.emptyIfNull(groupKTCountries)) {
-            countries.add(adaptGroupKTCountryToCountry(groupKTCountry));
-        }
-        return countries;
-    }
-
-    public Country adaptGroupKTCountryToCountry(GroupKTCountry groupKTCountry) {
+    @Override
+    public Country transform(GroupKTCountry groupKTCountry) {
         Country country = new Country();
         if (groupKTCountry != null) {
             country = Country.builder()
@@ -31,5 +23,4 @@ public class CountryAdapter {
         }
         return country;
     }
-
 }

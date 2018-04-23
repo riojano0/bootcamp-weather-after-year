@@ -1,25 +1,14 @@
-package com.montivero.poc.adapter;
+package com.montivero.poc.transformer;
 
 import com.montivero.poc.client.domain.GroupKTState;
 import com.montivero.poc.resource.domain.State;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Component
-public class StateAdapter {
+public class StateTransformer extends BaseTransformer<GroupKTState, State> {
 
-    public List<State> adaptGroupKTCountriesToCountries(List<GroupKTState> groupKTStateList) {
-        List<State> stateList = new ArrayList<>();
-        for (GroupKTState groupKTCountry : CollectionUtils.emptyIfNull(groupKTStateList)) {
-            stateList.add(adaptGroupKTStateToState(groupKTCountry));
-        }
-        return stateList;
-    }
-
-    public State adaptGroupKTStateToState(GroupKTState groupKTState) {
+    @Override
+    public State transform(GroupKTState groupKTState) {
         State state = new State();
         if (groupKTState != null) {
             state = State.builder()
