@@ -32,10 +32,15 @@ import static org.powermock.api.mockito.PowerMockito.mockStatic;
 @PrepareForTest({StateDelegate.class, GroupKTHelper.class, ResponseEntityHelper.class})
 public class StateDelegateTest {
 
+    private static final String COUNTRY_CODE = "SCA";
+    private static final String ABBREVIATE_NAME = "LU";
+    private static final String CAPITAL_NAME = "Luthadel";
+    private static final String STATE_NAME = "Central Dominance";
     private State state;
     private List<State> stateList;
     private GroupKTState groupKTState;
     private List<GroupKTState> groupKTStateList;
+    private ResponseEntity responseEntitySuccessful;
 
     @Mock
     private StateNameClient mockStateNameClient;
@@ -51,38 +56,38 @@ public class StateDelegateTest {
         mockStatic(ResponseEntityHelper.class);
         stateDelegate = new StateDelegate(mockStateNameClient, mockStateTransformer);
 
-        state = State.builder().name("Luthadel").name("Central Dominance").build();
+        state = State.builder().capital(CAPITAL_NAME).name(STATE_NAME).build();
         stateList = Collections.singletonList(state);
 
         groupKTState = new GroupKTState();
-        groupKTState.setCapital("Luthadel");
-        groupKTState.setName("Central Dominance");
-        groupKTState.setAbbreviateName("LU");
+        groupKTState.setCapital(CAPITAL_NAME);
+        groupKTState.setName(STATE_NAME);
+        groupKTState.setAbbreviateName(ABBREVIATE_NAME);
         groupKTStateList = new ArrayList<>();
         groupKTStateList.add(groupKTState);
+        responseEntitySuccessful = new ResponseEntity<>("Successful", HttpStatus.OK);
     }
 
     @Test
     public void shouldGetAllStatesByCountry() {
-        GroupKTRestResponse<List<GroupKTState>> groupKTRestResponseList = new GroupKTRestResponse<>();
-        groupKTRestResponseList.setResult(groupKTStateList);
-        GroupKTResponse<List<GroupKTState>> groupKTResponseList = new GroupKTResponse<>();
-        groupKTResponseList.setRestResponse(groupKTRestResponseList);
-        ResponseEntity<List<State>> responseEntityOk = new ResponseEntity<>(stateList, HttpStatus.OK);
-        when(mockStateNameClient.getAllStateByCountry("SCA")).thenReturn(groupKTResponseList);
-        when(GroupKTHelper.getRestResponse(groupKTResponseList)).thenReturn(groupKTRestResponseList);
-        when(GroupKTHelper.getResult(groupKTRestResponseList)).thenReturn(groupKTStateList);
+        GroupKTRestResponse<List<GroupKTState>> groupKTRestResponse = new GroupKTRestResponse<>();
+        groupKTRestResponse.setResult(groupKTStateList);
+        GroupKTResponse<List<GroupKTState>> groupKTResponse = new GroupKTResponse<>();
+        groupKTResponse.setRestResponse(groupKTRestResponse);
+        when(mockStateNameClient.getAllStateByCountry(COUNTRY_CODE)).thenReturn(groupKTResponse);
+        when(GroupKTHelper.getRestResponse(groupKTResponse)).thenReturn(groupKTRestResponse);
+        when(GroupKTHelper.getResult(groupKTRestResponse)).thenReturn(groupKTStateList);
         when(mockStateTransformer.transformList(groupKTStateList)).thenReturn(stateList);
-        when(ResponseEntityHelper.prepareResponseEntityForList(stateList)).thenReturn(responseEntityOk);
+        when(ResponseEntityHelper.prepareResponseEntityForList(stateList)).thenReturn(responseEntitySuccessful);
 
-        ResponseEntity responseEntity = stateDelegate.getAllStatesByCountry("SCA");
+        ResponseEntity responseEntity = stateDelegate.getAllStatesByCountry(COUNTRY_CODE);
 
         assertThat(responseEntity, notNullValue());
-        verify(mockStateNameClient).getAllStateByCountry("SCA");
+        verify(mockStateNameClient).getAllStateByCountry(COUNTRY_CODE);
         PowerMockito.verifyStatic(times(1));
-        GroupKTHelper.getRestResponse(groupKTResponseList);
+        GroupKTHelper.getRestResponse(groupKTResponse);
         PowerMockito.verifyStatic(times(1));
-        GroupKTHelper.getResult(groupKTRestResponseList);
+        GroupKTHelper.getResult(groupKTRestResponse);
         verify(mockStateTransformer).transformList(groupKTStateList);
         PowerMockito.verifyStatic(times(1));
         ResponseEntityHelper.prepareResponseEntityForList(stateList);
@@ -94,17 +99,16 @@ public class StateDelegateTest {
         groupKTRestResponse.setResult(groupKTState);
         GroupKTResponse<GroupKTState> groupKTResponse = new GroupKTResponse<>();
         groupKTResponse.setRestResponse(groupKTRestResponse);
-        ResponseEntity<State> responseEntityOk = new ResponseEntity<>(state, HttpStatus.OK);
-        when(mockStateNameClient.getStateDetailsByCountryAndAbbrName("SCA", "LU")).thenReturn(groupKTResponse);
+        when(mockStateNameClient.getStateDetailsByCountryAndAbbrName(COUNTRY_CODE, ABBREVIATE_NAME)).thenReturn(groupKTResponse);
         when(GroupKTHelper.getRestResponse(groupKTResponse)).thenReturn(groupKTRestResponse);
         when(GroupKTHelper.getResult(groupKTRestResponse)).thenReturn(groupKTState);
         when(mockStateTransformer.transform(groupKTState)).thenReturn(state);
-        when(ResponseEntityHelper.prepareResponseEntityForLocation(state)).thenReturn(responseEntityOk);
+        when(ResponseEntityHelper.prepareResponseEntityForLocation(state)).thenReturn(responseEntitySuccessful);
 
-        ResponseEntity responseEntity = stateDelegate.getStateByCountryAndShortName("SCA", "LU");
+        ResponseEntity responseEntity = stateDelegate.getStateByCountryAndShortName(COUNTRY_CODE, ABBREVIATE_NAME);
 
         assertThat(responseEntity, notNullValue());
-        verify(mockStateNameClient).getStateDetailsByCountryAndAbbrName("SCA", "LU");
+        verify(mockStateNameClient).getStateDetailsByCountryAndAbbrName(COUNTRY_CODE, ABBREVIATE_NAME);
         PowerMockito.verifyStatic(times(1));
         GroupKTHelper.getRestResponse(groupKTResponse);
         PowerMockito.verifyStatic(times(1));
@@ -114,4 +118,15 @@ public class StateDelegateTest {
         ResponseEntityHelper.prepareResponseEntityForLocation(state);
     }
 
+    @Test
+    public void shouldCallClientWithUpperCase() {
+
+        stateDelegate.getAllStatesByCountry(COUNTRY_CODE.toLowerCase());
+
+        verify(mockStateNameClient).getAllStateByCountry(COUNTRY_CODE);
+
+        stateDelegate.getStateByCountryAndShortName(COUNTRY_CODE.toLowerCase(), ABBREVIATE_NAME.toLowerCase());
+
+        verify(mockStateNameClient).getStateDetailsByCountryAndAbbrName(COUNTRY_CODE, ABBREVIATE_NAME);
+    }
 }

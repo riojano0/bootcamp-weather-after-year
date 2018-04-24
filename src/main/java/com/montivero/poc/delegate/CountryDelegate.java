@@ -1,6 +1,5 @@
 package com.montivero.poc.delegate;
 
-import com.montivero.poc.transformer.CountryTransformer;
 import com.montivero.poc.client.CountryNameClient;
 import com.montivero.poc.client.domain.GroupKTCountry;
 import com.montivero.poc.client.domain.GroupKTResponse;
@@ -9,6 +8,8 @@ import com.montivero.poc.helper.GroupKTHelper;
 import com.montivero.poc.helper.ResponseEntityHelper;
 import com.montivero.poc.resource.domain.Country;
 import com.montivero.poc.resource.domain.Message;
+import com.montivero.poc.transformer.CountryTransformer;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,7 @@ public class CountryDelegate {
 
     public ResponseEntity getCountry(String code) {
         GroupKTResponse<GroupKTCountry> groupKTResponse;
+        code = StringUtils.upperCase(code);
         switch (code.length()) {
             case 2:
                 groupKTResponse = countryNameClient.getCountryByIso2Code(code);
