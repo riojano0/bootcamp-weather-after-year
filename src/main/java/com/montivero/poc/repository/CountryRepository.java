@@ -9,4 +9,8 @@ public interface CountryRepository extends CrudRepository<Country, Long> {
 
     List<Country> findAll();
 
+    Country findByShortName2(String shortName2);
+
+    Country findByShortName3(String shortName3);
+
 }

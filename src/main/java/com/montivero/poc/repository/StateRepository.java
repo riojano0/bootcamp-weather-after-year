@@ -9,8 +9,6 @@ public interface StateRepository extends CrudRepository<State, Long> {
 
     State findByCountryShortName3AndShortName(String countryShortName3, String shortName);
 
-    List<State> findAll();
-
     List<State> findAllByCountryShortName3(String countryShortName3);
 
 }

@@ -1,6 +1,7 @@
 package com.montivero.poc.resource;
 
 import com.montivero.poc.delegate.CountryDelegate;
+import com.montivero.poc.resource.domain.Country;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -43,12 +44,23 @@ public class CountryResourceTest {
 
     @Test
     public void shouldGetCountryByCode() {
-        when(mockCountryDelegate.getCountry(COUNTRY_CODE)).thenReturn(responseEntitySuccessful);
+        when(mockCountryDelegate.getCountryByCode(COUNTRY_CODE)).thenReturn(responseEntitySuccessful);
 
         ResponseEntity responseEntity = countryResource.getCountryByCode(COUNTRY_CODE);
 
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
-        verify(mockCountryDelegate).getCountry(COUNTRY_CODE);
+        verify(mockCountryDelegate).getCountryByCode(COUNTRY_CODE);
+    }
+
+    @Test
+    public void shouldSaveCountry() {
+        Country country = new Country();
+        when(mockCountryDelegate.saveCountry(country)).thenReturn(responseEntitySuccessful);
+
+        ResponseEntity responseEntity = countryResource.saveCountry(country);
+
+        assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
+        verify(mockCountryDelegate).saveCountry(country);
     }
 
 }
