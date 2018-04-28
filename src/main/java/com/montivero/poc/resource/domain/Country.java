@@ -13,6 +13,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 @Entity
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "COUNTRIES")
 public class Country extends LongIdentifiable implements Location {
 

@@ -14,6 +14,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Builder
 @Entity
+@EqualsAndHashCode(callSuper = false)
 @Table(name = "STATES")
 public class State extends LongIdentifiable implements Location {
 

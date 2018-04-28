@@ -1,6 +1,7 @@
 package com.montivero.poc.resource;
 
 import com.montivero.poc.delegate.StateDelegate;
+import com.montivero.poc.resource.domain.State;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -12,7 +13,6 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-
 
 public class StateResourceTest {
 
@@ -53,4 +53,14 @@ public class StateResourceTest {
         verify(mockStateDelegate).getStateByCountryAndShortName(COUNTRY_CODE, SHORT_STATE_NAME);
     }
 
+    @Test
+    public void shouldSaveState() {
+        State state = new State();
+        when(mockStateDelegate.saveState(state)).thenReturn(responseEntitySuccessful);
+
+        ResponseEntity responseEntity = stateResource.saveState(state);
+
+        assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
+        verify(mockStateDelegate).saveState(state);
+    }
 }
