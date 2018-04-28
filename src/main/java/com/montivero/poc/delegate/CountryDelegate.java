@@ -48,7 +48,7 @@ public class CountryDelegate {
                 groupKTResponse = countryNameClient.getCountryByIso3Code(code);
                 break;
             default:
-                return new ResponseEntity<>(new Message("Try with Iso2Code or Iso3Code"), HttpStatus.BAD_REQUEST);
+                return ResponseEntityHelper.prepareResponseEntityMessage(Message.makeMessage("Try with Iso2Code or Iso3Code"), HttpStatus.BAD_REQUEST);
         }
         GroupKTRestResponse<GroupKTCountry> restResponse = GroupKTHelper.getRestResponse(groupKTResponse);
         GroupKTCountry groupKTCountry = GroupKTHelper.getResult(restResponse);

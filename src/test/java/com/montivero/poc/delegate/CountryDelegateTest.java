@@ -39,6 +39,7 @@ public class CountryDelegateTest {
     private static final String COUNTRY_NAME = "Scadrial";
     private static final String COUNTRY_ISO2_CODE = "SC";
     private static final String COUNTRY_ISO3_CODE = "SCA";
+    public static final String MESSAGE_VALUE_TRY_WITH_ISO_2_CODE_OR_ISO_3_CODE = "Try with Iso2Code or Iso3Code";
     private Country country;
     private GroupKTCountry groupKTCountry;
     private ResponseEntity responseEntitySuccessful;
@@ -161,12 +162,11 @@ public class CountryDelegateTest {
 
     @Test
     public void shouldGetMessageWhenIsNotTheAcceptedIsoCode() {
+        when(ResponseEntityHelper.prepareResponseEntityMessage(Message.makeMessage(MESSAGE_VALUE_TRY_WITH_ISO_2_CODE_OR_ISO_3_CODE), HttpStatus.BAD_REQUEST)).
+                thenReturn(ResponseEntity.badRequest().build());
 
         ResponseEntity responseEntity = countryDelegate.getCountry(COUNTRY_NAME);
 
-        assertThat(responseEntity, notNullValue());
-        Message message = (Message) responseEntity.getBody();
-        assertThat(message.getValue(), is("Try with Iso2Code or Iso3Code"));
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.BAD_REQUEST));
         verify(mockCountryNameClient, never()).getCountryByIso2Code(anyString());
         verify(mockCountryNameClient, never()).getCountryByIso3Code(anyString());
@@ -175,8 +175,8 @@ public class CountryDelegateTest {
         PowerMockito.verifyStatic(never());
         GroupKTHelper.getResult(ArgumentMatchers.any());
         verify(mockCountryTransformer, never()).transform(ArgumentMatchers.any());
-        PowerMockito.verifyStatic(never());
-        ResponseEntityHelper.prepareResponseEntityForLocation(ArgumentMatchers.any());
+        PowerMockito.verifyStatic(times(1));
+        ResponseEntityHelper.prepareResponseEntityMessage(Message.makeMessage(MESSAGE_VALUE_TRY_WITH_ISO_2_CODE_OR_ISO_3_CODE), HttpStatus.BAD_REQUEST);
     }
 
 }
