@@ -1,12 +1,8 @@
 package com.montivero.poc.transformer;
 
-import com.montivero.poc.client.domain.GroupKTCountry;
+import com.montivero.poc.client.domain.groupKT.GroupKTCountry;
 import com.montivero.poc.resource.domain.Country;
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
 public class CountryTransformer extends BaseTransformer<GroupKTCountry, Country> {
@@ -23,4 +19,5 @@ public class CountryTransformer extends BaseTransformer<GroupKTCountry, Country>
         }
         return country;
     }
+
 }

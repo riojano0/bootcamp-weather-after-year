@@ -1,9 +1,9 @@
 package com.montivero.poc.delegate;
 
 import com.montivero.poc.client.StateNameClient;
-import com.montivero.poc.client.domain.GroupKTResponse;
-import com.montivero.poc.client.domain.GroupKTRestResponse;
-import com.montivero.poc.client.domain.GroupKTState;
+import com.montivero.poc.client.domain.groupKT.GroupKTResponse;
+import com.montivero.poc.client.domain.groupKT.GroupKTRestResponse;
+import com.montivero.poc.client.domain.groupKT.GroupKTState;
 import com.montivero.poc.helper.GroupKTHelper;
 import com.montivero.poc.helper.ResponseEntityHelper;
 import com.montivero.poc.repository.StateRepository;

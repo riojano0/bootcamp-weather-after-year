@@ -2,14 +2,13 @@ package com.montivero.poc.helper;
 
 import com.montivero.poc.resource.domain.Location;
 import com.montivero.poc.resource.domain.Message;
+import com.montivero.poc.resource.domain.weather.Weather;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ResponseEntityHelper {
@@ -28,7 +27,13 @@ public class ResponseEntityHelper {
                 : new ResponseEntity<>(Message.makeMessage(NOT_FOUND_MATCH_MESSAGE), HttpStatus.NOT_FOUND);
     }
 
-    public static ResponseEntity prepareResponseEntityMessage(Message message, HttpStatus httpStatus){
+    public static ResponseEntity prepareResponseEntityForWeather(Weather weather) {
+        return weather.getCity() != null
+                ? new ResponseEntity<>(weather, HttpStatus.OK)
+                : new ResponseEntity<>(Message.makeMessage(NOT_FOUND_MATCH_MESSAGE), HttpStatus.NOT_FOUND);
+    }
+
+    public static ResponseEntity prepareResponseEntityMessage(Message message, HttpStatus httpStatus) {
         return new ResponseEntity<>(message, httpStatus);
     }
 

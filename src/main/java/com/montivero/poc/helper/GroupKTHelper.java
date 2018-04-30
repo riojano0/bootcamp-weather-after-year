@@ -1,7 +1,7 @@
 package com.montivero.poc.helper;
 
-import com.montivero.poc.client.domain.GroupKTResponse;
-import com.montivero.poc.client.domain.GroupKTRestResponse;
+import com.montivero.poc.client.domain.groupKT.GroupKTResponse;
+import com.montivero.poc.client.domain.groupKT.GroupKTRestResponse;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

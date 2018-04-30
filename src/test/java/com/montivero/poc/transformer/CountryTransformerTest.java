@@ -1,6 +1,6 @@
 package com.montivero.poc.transformer;
 
-import com.montivero.poc.client.domain.GroupKTCountry;
+import com.montivero.poc.client.domain.groupKT.GroupKTCountry;
 import com.montivero.poc.resource.domain.Country;
 import org.junit.Before;
 import org.junit.Test;

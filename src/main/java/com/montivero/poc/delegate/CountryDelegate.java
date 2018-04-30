@@ -1,9 +1,9 @@
 package com.montivero.poc.delegate;
 
 import com.montivero.poc.client.CountryNameClient;
-import com.montivero.poc.client.domain.GroupKTCountry;
-import com.montivero.poc.client.domain.GroupKTResponse;
-import com.montivero.poc.client.domain.GroupKTRestResponse;
+import com.montivero.poc.client.domain.groupKT.GroupKTCountry;
+import com.montivero.poc.client.domain.groupKT.GroupKTResponse;
+import com.montivero.poc.client.domain.groupKT.GroupKTRestResponse;
 import com.montivero.poc.helper.GroupKTHelper;
 import com.montivero.poc.helper.ResponseEntityHelper;
 import com.montivero.poc.repository.CountryRepository;

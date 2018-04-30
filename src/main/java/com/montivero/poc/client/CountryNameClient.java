@@ -1,7 +1,7 @@
 package com.montivero.poc.client;
 
-import com.montivero.poc.client.domain.GroupKTCountry;
-import com.montivero.poc.client.domain.GroupKTResponse;
+import com.montivero.poc.client.domain.groupKT.GroupKTCountry;
+import com.montivero.poc.client.domain.groupKT.GroupKTResponse;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -26,6 +26,5 @@ public interface CountryNameClient {
     @Path("/get/iso3code/{code}")
     @Produces(MediaType.APPLICATION_JSON)
     GroupKTResponse<GroupKTCountry> getCountryByIso3Code(@PathParam(value = "code") String code);
-
 
 }

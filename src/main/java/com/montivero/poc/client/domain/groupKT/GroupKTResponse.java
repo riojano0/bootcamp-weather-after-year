@@ -1,4 +1,4 @@
-package com.montivero.poc.client.domain;
+package com.montivero.poc.client.domain.groupKT;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

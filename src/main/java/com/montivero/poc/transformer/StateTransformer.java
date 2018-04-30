@@ -1,6 +1,6 @@
 package com.montivero.poc.transformer;
 
-import com.montivero.poc.client.domain.GroupKTState;
+import com.montivero.poc.client.domain.groupKT.GroupKTState;
 import com.montivero.poc.resource.domain.State;
 import org.springframework.stereotype.Component;
 

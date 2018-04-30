@@ -1,7 +1,7 @@
 package com.montivero.poc.client;
 
-import com.montivero.poc.client.domain.GroupKTResponse;
-import com.montivero.poc.client.domain.GroupKTState;
+import com.montivero.poc.client.domain.groupKT.GroupKTResponse;
+import com.montivero.poc.client.domain.groupKT.GroupKTState;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
