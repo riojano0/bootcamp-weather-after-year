@@ -10,7 +10,7 @@
                          address="https://query.yahooapis.com/v1/public/yql"
                          inheritHeaders="true">
         <jaxrs-client:providers>
-            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+            <ref bean="jsonProvider"/>
         </jaxrs-client:providers>
     </jaxrs-client:client>
 
@@ -19,7 +19,7 @@
                          address="http://services.groupkt.com/country"
                          inheritHeaders="true">
         <jaxrs-client:providers>
-            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+            <ref bean="jsonProvider"/>
         </jaxrs-client:providers>
     </jaxrs-client:client>
 
@@ -28,7 +28,7 @@
                          address="http://services.groupkt.com/state"
                          inheritHeaders="true">
         <jaxrs-client:providers>
-            <bean class="com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider"/>
+            <ref bean="jsonProvider"/>
         </jaxrs-client:providers>
     </jaxrs-client:client>
 

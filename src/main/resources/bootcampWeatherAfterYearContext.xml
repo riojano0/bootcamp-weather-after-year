@@ -9,6 +9,7 @@
 
     <import resource="classpath:clientContext.xml"/>
     <import resource="classpath:persistenceContext.xml"/>
+    <import resource="classpath:jacksonProviderContext.xml"/>
 
     <mvc:annotation-driven/>
     <context:annotation-config/>
