@@ -5,11 +5,13 @@ import com.montivero.poc.resource.domain.weather.ForecastCondition;
 import com.montivero.poc.resource.domain.weather.TodayCondition;
 import com.montivero.poc.resource.domain.weather.Weather;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Spy;
 
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -27,8 +29,8 @@ public class WeatherTransformerTest {
     private static final String CITY_NAME_VIEDMA = "Viedma";
     private static final String REGION_NAME_RIO_NEGRO = "Rio Negro";
     private static final String COUNTRY_NAME_ARGENTINA = "Argentina";
-    private static final LocalDate LOCAL_DATE_FORECAST_DAY_ONE = LocalDate.parse("2018-05-01");
-    private static final LocalDate LOCAL_DATE_FORECAST_DAY_TWO = LocalDate.parse("2018-05-02");
+    private static final LocalDate LOCAL_DATE_FORECAST_DAY_ONE = LocalDate.now();
+    private static final LocalDate LOCAL_DATE_FORECAST_DAY_TWO = LocalDate.now().plusDays(1);
     private static final int MAX_CELSIUS_TEMPERATURE = 30;
     private static final int MIN_CELSIUS_TEMPERATURE = 0;
 
@@ -48,7 +50,8 @@ public class WeatherTransformerTest {
         weatherTransformer = new WeatherTransformer(mockTodayConditionTransformer, mockForecastConditionTransformer);
 
         Condition yahooCondition = new Condition();
-        yahooCondition.setDate("Mon, 30 Apr 2018 10:00 AM ART");
+        String todayStringFormat = LocalDate.now().toString(DateTimeFormat.forPattern("EEE, dd MMM yyyy").withLocale(Locale.US));
+        yahooCondition.setDate(todayStringFormat);
         yahooCondition.setTemp(FAHRENHEIT_HIGH_TEMPERATURE);
         yahooCondition.setText(WEATHER_DESCRIPTION_CLOUDY);
         Forecast forecastDayOne = new Forecast();
