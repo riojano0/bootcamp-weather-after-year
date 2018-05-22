@@ -1,7 +1,7 @@
 package com.montivero.poc.configuration;
 
-import com.montivero.poc.resource.domain.error.ExceptionResponse;
-import com.montivero.poc.resource.domain.error.ValidationException;
+import com.montivero.poc.resource.domain.exception.ExceptionResponse;
+import com.montivero.poc.resource.domain.exception.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

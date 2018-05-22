@@ -2,6 +2,8 @@ package com.montivero.poc.resource;
 
 import com.montivero.poc.delegate.StateDelegate;
 import com.montivero.poc.resource.domain.State;
+import com.montivero.poc.resource.domain.exception.ValidationException;
+import com.montivero.poc.resource.validator.StateValidator;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -11,8 +13,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @Ignore
@@ -25,12 +26,15 @@ public class StateResourceTest {
     @Mock
     private StateDelegate mockStateDelegate;
 
+    @Mock
+    private StateValidator stateValidator;
+
     private StateResource stateResource;
 
     @Before
     public void setUp() {
         initMocks(this);
-//        stateResource = new StateResource(mockStateDelegate);
+        stateResource = new StateResource(mockStateDelegate, stateValidator);
 
         responseEntitySuccessful = new ResponseEntity<>("Successful", HttpStatus.OK);
     }
@@ -63,6 +67,28 @@ public class StateResourceTest {
         ResponseEntity responseEntity = stateResource.saveState(state);
 
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
+        verify(stateValidator).validate(state);
         verify(mockStateDelegate).saveState(state);
+    }
+
+    @Test(expected = ValidationException.class)
+    public void shouldThrowValidationExceptionWhenStateToSaveIsInvalid() {
+        final String validationExceptionKey = "state.countryShortName3";
+        final String validationExceptionValue = "FourLetters";
+        final String validationExceptionMessage = "state.countryShortName3";
+        State state = State.builder().countryShortName3(validationExceptionValue).build();
+        doThrow(new ValidationException(validationExceptionKey, validationExceptionValue, validationExceptionMessage))
+                .when(stateValidator).validate(state);
+
+        try {
+            stateResource.saveState(state);
+        } catch (ValidationException e) {
+            assertThat(e.getKey(), is(validationExceptionKey));
+            assertThat(e.getValue(), is(validationExceptionValue));
+            assertThat(e.getMessage(), is(validationExceptionMessage));
+            verifyZeroInteractions(mockStateDelegate);
+
+            throw e;
+        }
     }
 }

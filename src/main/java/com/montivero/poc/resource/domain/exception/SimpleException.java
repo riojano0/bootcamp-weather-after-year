@@ -1,4 +1,4 @@
-package com.montivero.poc.resource.domain.error;
+package com.montivero.poc.resource.domain.exception;
 
 public interface SimpleException {
 
